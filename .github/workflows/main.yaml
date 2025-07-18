@@ -1,0 +1,8 @@
+name: example #Name
+on: push #Must be present at all times. The events that needs to be carried out, when push is selected
+jobs:
+  greeting: #Name of the job
+    runs-on: ubuntu-latest #Name of the OS jobs run on
+    steps: #The steps that needs to be run
+      - name: Greeting!
+        run: echo hello world
