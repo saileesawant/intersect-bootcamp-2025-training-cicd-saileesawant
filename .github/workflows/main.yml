@@ -1,0 +1,84 @@
+# name: example #Name of the workflow
+# on: push #Must be present at all times. The events that needs to be carried out, when push is selected
+# jobs:
+#   greeting: #Name of the job
+#     runs-on: ubuntu-latest #Name of the OS jobs run on
+#     steps: #The steps that needs to be run
+#       - name: Greeting!
+#         run: echo hello world
+#   test-python-3-10:
+#   name: Check Python 3.10 on Ubuntu
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/checkout@v4 #The @v4 in actions/checkout@v4 signifies which version of the actions/checkout to use.
+
+#     - uses: actions/setup-python@v5
+#       with:
+#         python-version: "3.10"
+
+# #From Tutorial: CI for Python Package
+# name: Code Checks
+# on: push
+# jobs:
+#   greeting:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Greeting!
+#         run: echo hello world
+
+#   test-python-3-10:
+#     name: Check Python 3.10 on Ubuntu
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - uses: actions/setup-python@v4
+#         with:
+#           python-version: "3.10"
+
+#       - name: Install package
+#         run: python -m pip install -e .[test]
+
+#       - name: Test package
+#         run: python -m pytest
+
+#   test-python-3-11:
+#     name: Check Python 3.11 on Ubuntu
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
+
+#       - name: Install package
+#         run: python -m pip install -e .[test]
+
+#       - name: Test package
+#         run: python -m pytest
+
+#From Tutorial: Matrix:
+name: Code Checks
+on: push
+jobs:
+
+  test-python-versions:
+    name: Check Python ${{ matrix.python-version }} on Ubuntu
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: python -m pip install -e .[test]
+
+      - name: Test package
+        run: python -m pytest
